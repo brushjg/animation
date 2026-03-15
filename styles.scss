@@ -1,20 +1,26 @@
 .animations {
     color: green;
-    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #462727;
     padding: 20px;
 
-    .svg-wrapper {
-        width: 200px;
-        height: 200px;
-    }
-
     button {
         margin-top: 20px;
         color: red;
         background-color: pink;
+    }
+    .svg-wrapper {
+        position: relative;
+        >svg {
+             height: 450px;
+        }
+        g {
+            transform-origin: center;
+         }
+    }
+    .eyes {
+        
     }
 }
