@@ -9,27 +9,18 @@ export default function AnimationPage() {
     const scope = useRef<anime | null>(null)
     const eyeRoot = useRef(null)
     const [rotations, setRotations] = useState(0)
-    const squares = eyeRoot
+    const [ smallEyes, setSmallEyes ] = useState(false)
 
     useEffect(()=> {
-        const eyeSelector = document.querySelector('.eyes')
-        console.log(eyeRoot.current)
-        console.log(squares)
-        let setter
-        setter = utils.set(squares, {
-                transformOrigin: 'center',
-                translateY: '-400px',
-                })
         scope.current = createScope({eyeRoot }).add( self => {
              utils.set('.eyes', {
                 transformOrigin: 'center',
                 translateY: '-400px',
                 scale: .5,
                 })
-
             animate('.eyes', {
                 scale: [
-                    { to: .75, ease: 'inOut(3)', duration:200 },
+                    { to: .6, ease: 'inOut(3)', duration:200 },
                     { to: .5, ease: (spring({bounce: .7}))}
                 ],
                 loop: true,
@@ -39,8 +30,8 @@ export default function AnimationPage() {
                 container: [0,0,0,0],
                 releaseEase: spring({bounce: .7})
             })
-            self.add('rotateLogo', (i)=> {
-                console.log('rotating logo')
+            self.add('rotateHead', (i)=> {
+                console.log('rotating logo', i)
                 console.log(self)
                 animate('.logo', {
                     rotate: i * 360,
@@ -48,28 +39,31 @@ export default function AnimationPage() {
                     duration: 1500,
                 })
             })
+
+            self.add('blinkEyes', (smallEyes) => {
+            animate('.eyes', {
+                scaleY: !smallEyes ? .25 : 1,
+                scaleX: !smallEyes ? .75 : 1,
+                duration: 1000,
+                ease: 'inOut(6)',
+            })
+             })
         })
         return () => scope.current.revert()
     }, [])
 
     const handleClick = () => {
         const newRotations = rotations + 1
-        scope.current.methods.rotateLogo(newRotations)
+        scope.current.methods.rotateHead(newRotations)
         setRotations(newRotations)
     }
 
     const handleEyes = () => {
         console.log('animating eyes')
-        console.log(document.querySelector('.eyes'))
-        waapi.animate('.eyes', {
-            scaleY: .25,
-            scaleX: .75,
-            duration: 1000,
-            direction: 'alternate',
-            ease: 'inOut(6)',
-            translateY: '-1200px',
-        })
+        scope.current.methods.blinkEyes(smallEyes)
+        setSmallEyes(!smallEyes)
     }
+    
     return (
         <div ref={root} className="animations">
             <div className="svg-wrapper" >
@@ -81,7 +75,7 @@ export default function AnimationPage() {
                 rotations: {rotations}
             </button>
             <button onClick={handleEyes}>
-                eyes: {rotations}
+                eyes: {!smallEyes ? 'open' : 'closed'}
             </button>
             </div>
 
@@ -91,7 +85,10 @@ export default function AnimationPage() {
 
 //TODO
 /*
-//Eyes need to be centered, otherwise the scaling breaks
 dials for animating eyes
-pom-pom is dragable, spring follows along and is dynamic based on distrance from the top of head.
+switch eye tracking to mouse position, pulsing is triggered manually
+do we really need multiple roots
+rescope them into the head so they move with the head
+cleanup code, cleanup SCSS
+make the pom-pom waggle somehow.
 */
