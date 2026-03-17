@@ -1,5 +1,4 @@
 .animations {
-    color: green;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,14 +6,15 @@
     padding: 20px;
 
     button {
-        margin-top: 20px;
+        margin: 20px 10px 0;
         color: red;
         background-color: pink;
+        width: 130px;
     }
     .svg-wrapper {
-        position: relative;
+        height: 450px;
         >svg {
-             height: 450px;
+            height: 100%
         }
         g {
             transform-origin: center;

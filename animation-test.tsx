@@ -1,11 +1,10 @@
 import anime, { animate, createScope, spring, createDraggable, utils, waapi } from 'animejs'
 import { useEffect, useState, useRef } from 'react'
-import RobotHead from './SVGexport/RobotHead2.svg?react'
+import RobotHead from './SVGexport/RobotHead3.svg?react'
 import RobotEyes from './SVGexport/Robothead-eyes.svg?react'
 import './styles.scss'
 
 export default function AnimationPage() {
-    const root = useRef(null)
     const scope = useRef<anime | null>(null)
     const eyeRoot = useRef(null)
     const [rotations, setRotations] = useState(0)
@@ -15,19 +14,20 @@ export default function AnimationPage() {
         scope.current = createScope({eyeRoot }).add( self => {
              utils.set('.eyes', {
                 transformOrigin: 'center',
-                translateY: '-400px',
+                translateY: '-440px',
                 scale: .5,
                 })
             animate('.eyes', {
                 scale: [
-                    { to: .6, ease: 'inOut(3)', duration:200 },
+                    { to: .51, ease: 'inOut(3)', duration:200 },
                     { to: .5, ease: (spring({bounce: .7}))}
                 ],
                 loop: true,
                 loopDelay: 250,
             })
-            createDraggable('.logo', {
-                container: [0,0,0,0],
+            createDraggable('.pompom', {
+                container: [-20, 50, 100, 0],
+                containerFriction: 1,
                 releaseEase: spring({bounce: .7})
             })
             self.add('rotateHead', (i)=> {
@@ -39,7 +39,6 @@ export default function AnimationPage() {
                     duration: 1500,
                 })
             })
-
             self.add('blinkEyes', (smallEyes) => {
             animate('.eyes', {
                 scaleY: !smallEyes ? .25 : 1,
@@ -65,20 +64,20 @@ export default function AnimationPage() {
     }
     
     return (
-        <div ref={root} className="animations">
+        <div ref={eyeRoot} className="animations">
             <div className="svg-wrapper" >
-                <RobotHead className='logo' />  
-            </div>
-                <RobotEyes className='eyes' ref={eyeRoot} />
-            <div className='medium row'>
-            <button onClick={handleClick}>
-                rotations: {rotations}
-            </button>
-            <button onClick={handleEyes}>
-                eyes: {!smallEyes ? 'open' : 'closed'}
-            </button>
+                <RobotHead className='logo' />
+                <RobotEyes className='eyes' /> 
             </div>
 
+            <div className='button row'>
+                <button onClick={handleClick}>
+                    rotations: {rotations}
+                </button>
+                <button onClick={handleEyes}>
+                    eyes: {!smallEyes ? 'open' : 'closed'}
+                </button>
+            </div>
         </div>
     )
 }
