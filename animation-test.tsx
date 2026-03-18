@@ -15,6 +15,7 @@ export default function AnimationPage() {
              utils.set('.eyes', {
                 transformOrigin: 'center',
                 translateY: '-440px',
+                translateX: '-20px',
                 scale: .5,
                 })
             animate('.eyes', {
@@ -27,8 +28,8 @@ export default function AnimationPage() {
             })
             createDraggable('.pompom', {
                 container: [-20, 50, 100, 0],
-                containerFriction: 1,
-                releaseEase: spring({bounce: .7})
+                containerFriction: .95,
+                releaseEase: spring({bounce: .8})
             })
             self.add('rotateHead', (i)=> {
                 console.log('rotating logo', i)
@@ -43,6 +44,7 @@ export default function AnimationPage() {
             animate('.eyes', {
                 scaleY: !smallEyes ? .25 : 1,
                 scaleX: !smallEyes ? .75 : 1,
+                translateY: !smallEyes ? '-480px' : '-440px',
                 duration: 1000,
                 ease: 'inOut(6)',
             })
@@ -86,8 +88,7 @@ export default function AnimationPage() {
 /*
 dials for animating eyes
 switch eye tracking to mouse position, pulsing is triggered manually
-do we really need multiple roots
-rescope them into the head so they move with the head
-cleanup code, cleanup SCSS
+rescope eyes into the head so they move with the head
 make the pom-pom waggle somehow.
+look into why the import is underlined
 */
