@@ -18,6 +18,19 @@ export default function AnimationPage() {
                 translateX: '-20px',
                 scale: .5,
                 })
+            utils.set('.stem', {
+                transformOrigin: 'center',
+                translateY: '-130px',
+                translateX: '-235px',
+                })
+            utils.set('.pompom', {
+                transformOrigin: 'center',
+                translateY: '15px',
+                translateX: '90px',
+                })
+                utils.set('.stem path', {
+                    d: 'M526.5,294C526.5,294 570.5,208 648.5,227',
+                })
             animate('.eyes', {
                 scale: [
                     { to: .51, ease: 'inOut(3)', duration:200 },
@@ -26,9 +39,16 @@ export default function AnimationPage() {
                 loop: true,
                 loopDelay: 250,
             })
-            createDraggable('.pompom', {
-                container: [-20, 50, 100, 0],
+            const pompom = createDraggable('.pompom', {
+                container: [-20, 120, 100, 0],
                 containerFriction: .95,
+                onDrag: (e) => {
+                    const { x, y } = e
+                    console.log('dragging pompom', x, y)
+                    utils.set('.stem svg', {
+                        viewBox: `${-235 + x} ${-130 + y} 100 100`
+                    })
+                },
                 releaseEase: spring({bounce: .8})
             })
             self.add('rotateHead', (i)=> {
@@ -88,7 +108,8 @@ export default function AnimationPage() {
 /*
 dials for animating eyes
 switch eye tracking to mouse position, pulsing is triggered manually
-rescope eyes into the head so they move with the head
-make the pom-pom waggle somehow.
+rescope eyes into the head so they rotate with the head
+update the area where the pomppom can be dragged. (maybe a toggle for the rect)
+resize the pomppm handle dynamically based on where the  pomppom is dragged
 look into why the import is underlined
 */
