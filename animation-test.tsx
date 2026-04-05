@@ -16,7 +16,8 @@ export default function AnimationPage() {
                 transformOrigin: 'center',
                 translateY: '-440px',
                 translateX: '-20px',
-                scale: .5,
+                scaleX: .4,
+                scaleY: .35,
                 })
             utils.set('.stem', {
                 transformOrigin: 'center',
@@ -32,9 +33,9 @@ export default function AnimationPage() {
                     d: 'M526.5,294C526.5,294 570.5,208 648.5,227',
                 })
             animate('.eyes', {
-                scale: [
-                    { to: .51, ease: 'inOut(3)', duration:200 },
-                    { to: .5, ease: (spring({bounce: .7}))}
+                scaleX: [
+                    { to: .41, ease: 'inOut(3)', duration:200 },
+                    { to: .4, ease: (spring({bounce: .7}))}
                 ],
                 loop: true,
                 loopDelay: 250,
@@ -62,9 +63,8 @@ export default function AnimationPage() {
             })
             self.add('blinkEyes', (smallEyes) => {
             animate('.eyes', {
-                scaleY: !smallEyes ? .25 : 1,
-                scaleX: !smallEyes ? .75 : 1,
-                translateY: !smallEyes ? '-480px' : '-440px',
+                scaleY: !smallEyes ? .15 : .35,
+                translateY: !smallEyes ? '-460px' : '-440px',
                 duration: 1000,
                 ease: 'inOut(6)',
             })
@@ -109,7 +109,6 @@ export default function AnimationPage() {
 dials for animating eyes
 switch eye tracking to mouse position, pulsing is triggered manually
 rescope eyes into the head so they rotate with the head
-update the area where the pomppom can be dragged. (maybe a toggle for the rect)
 resize the pomppm handle dynamically based on where the  pomppom is dragged
 look into why the import is underlined
 */
